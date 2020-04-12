@@ -1,0 +1,2 @@
+rootProject.name='Smart Parking System'
+include ':app'

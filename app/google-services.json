@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "617199516568",
+    "firebase_url": "https://smart-parking-system-8b8ef.firebaseio.com",
+    "project_id": "smart-parking-system-8b8ef",
+    "storage_bucket": "smart-parking-system-8b8ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617199516568:android:0d5f8e2e738754ce80c9ed",
+        "android_client_info": {
+          "package_name": "com.teamlilhax.smartparkingsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617199516568-kk5d55s42ishicve117shspg4dsdpadp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-yu9ttMZBNGRGMD3R-xFjISN8hixHl-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617199516568-kk5d55s42ishicve117shspg4dsdpadp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617199516568:android:6589bd68a67ee46080c9ed",
+        "android_client_info": {
+          "package_name": "com.teamlilhax.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617199516568-kk5d55s42ishicve117shspg4dsdpadp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-yu9ttMZBNGRGMD3R-xFjISN8hixHl-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617199516568-kk5d55s42ishicve117shspg4dsdpadp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
