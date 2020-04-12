@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,18 +24,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
-
 
 public class MainActivity extends AppCompatActivity {
     WebView webView;
-    String url = "http://192.168.31.112:8000/dashboard" ;
+    TextView textView;
+    String url = "http://192.168.31.26:8080/dashboard" ;
     boolean subscription = false;
-    Document document;
 
+    SharedPreferences sh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
         catch (NullPointerException e){}
         setContentView(R.layout.activity_main);
 
-        FetchUserName runner = new FetchUserName();
-        runner.execute();
-
+        sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        textView = findViewById(R.id.textView);
         webView = findViewById(R.id.webView);
         FloatingActionButton floatBtn = findViewById(R.id.fab);
 
@@ -54,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 webView.loadUrl( webView.getUrl() );
+            }
+        });
+        FloatingActionButton settings = findViewById(R.id.settings);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Login.class));
             }
         });
 
@@ -74,8 +80,20 @@ public class MainActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
 
+        if(sh.getBoolean("email_status",false)){
+            String[] topic = sh.getString("email","null").split("@");
+            subscribe(topic[0]+"%"+topic[1]);
+        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(sh.getBoolean("email_status",false)){
+            textView.setText("Subscribed to "+sh.getString("email","none"));
+        }
+    }
 
     public void subscribe(final String topic){
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
@@ -83,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         String msg ="Successfull";
-                        subscription = true;
                         if (!task.isSuccessful()) {
                             msg = "Failed";
                         }
@@ -92,26 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 });
         Log.d("FCMToken", "token "+ FirebaseInstanceId.getInstance().getToken());
     }
+
 }
 
-class FetchUserName extends AsyncTask<String,String,String>{
-    String url = "http://192.168.31.112:8000/dashboard" ;
-    @Override
-    protected String doInBackground(String... strings) {
-
-        Document document = null;
-        try {
-            document = Jsoup.connect(url).get();
-            String subscription_topic = document.getElementById("display-usename").text();
-            Log.d("FCMToken", "token "+ subscription_topic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public void executeThis(){
-
-    }
-}
